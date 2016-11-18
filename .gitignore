@@ -1,0 +1,7 @@
+.idea
+ds-assignment.iml
+.DS_STORE
+build
+gradle
+.gradle
+out
