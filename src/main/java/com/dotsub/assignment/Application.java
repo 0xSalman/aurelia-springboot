@@ -1,7 +1,7 @@
 package com.dotsub.assignment;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * @author Muhammad Salman
@@ -11,6 +11,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class Application {
 
   public static void main(String[] args) {
-    new SpringApplicationBuilder(Application.class).run(args);
+    SpringApplication.run(Application.class, args);
   }
 }

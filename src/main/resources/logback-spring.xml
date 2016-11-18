@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  
+  <!-- Fetch defined default values from spring environment -->
+  <springProperty scope="context" name="logDir" source="dsas.logging.dir"/>
+  <springProperty scope="context" name="logLevel" source="dsas.logging.level"/>
+  <springProperty scope="context" name="fileName" source="dsas.logging.fileName"/>
+  <springProperty scope="context" name="maxNumFiles" source="dsas.logging.maxNumFiles"/>
+  <springProperty scope="context" name="maxFileSize" source="dsas.logging.maxFileSize"/>
+  
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{50} - %msg %n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDir}/${fileName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>${logDir}/${fileName}.%i.log</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>${maxNumFiles}</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>${maxFileSize}</maxFileSize>
+    </triggeringPolicy>
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{35} - %msg %n</pattern>
+    </encoder>
+  </appender>
+  
+  <!--  <root level="${logLevel}">
+      <appender-ref ref="FILE" />
+    </root>-->
+  
+  <logger name="org.springframework.web" level="ERROR">
+    <appender-ref ref="FILE"/>
+  </logger>
+  
+  <logger name="org.springframework.boot.SpringApplication" level="ERROR">
+    <appender-ref ref="FILE"/>
+  </logger>
+  
+  <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="${logLevel}">
+    <appender-ref ref="FILE"/>
+  </logger>
+  
+  <logger name="com.dotsub.assignment" level="${logLevel}">
+    <appender-ref ref="FILE"/>
+  </logger>
+</configuration>
