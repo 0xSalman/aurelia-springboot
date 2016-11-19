@@ -1,5 +1,7 @@
 package com.dotsub.assignment.common;
 
+import java.util.Map;
+
 import com.dotsub.assignment.common.exceptions.BadRequestException;
 import com.dotsub.assignment.common.exceptions.ErrorKey;
 import com.dotsub.assignment.common.exceptions.NotFoundException;
@@ -18,10 +20,10 @@ public class ValidationUtil {
     }
   }
 
-  public static void notFound(String property, Object value, String errorKey, Object criteria) {
+  public static void notFound(String property, Object value, String errorKey, Map<String, Object> context) {
     if (value == null) {
       String errorMessage = StringUtil.convertCamelCase(property) + " not found";
-      throw new NotFoundException(errorMessage, errorKey).addContext("criteria", criteria);
+      throw new NotFoundException(errorMessage, errorKey).addContext(context);
     }
   }
 

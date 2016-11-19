@@ -33,6 +33,7 @@ dependencies {
   compile('org.springframework.boot:spring-boot-starter-security')
   compile('org.springframework.boot:spring-boot-starter-web')
   compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+  compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
   compileOnly('org.projectlombok:lombok')
 
   testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -1,9 +1,9 @@
 package com.dotsub.assignment;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -19,7 +19,7 @@ import com.dotsub.assignment.common.DateUtil;
 
 public class FileApiTest extends BaseTest {
 
-  @Test
+  @Test(priority = 1)
   public void add_file() {
 
     LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -36,8 +36,7 @@ public class FileApiTest extends BaseTest {
     assert response.getStatusCode().equals(HttpStatus.OK);
   }
 
-  @Test
-
+  @Test(priority = 2)
   public void find_all_files() {
     getFiles(new PageRequest(0, 25));
   }
@@ -49,23 +48,26 @@ public class FileApiTest extends BaseTest {
                                                        .queryParam("page", pageable.getPageNumber())
                                                        .queryParam("size", pageable.getPageSize());
 
-    ResponseEntity<Page> response = restTemplate.getForEntity(builder.build().encode().toUri(), Page.class);
+    ResponseEntity<Map> response = restTemplate.getForEntity(builder.build().encode().toUri(), Map.class);
     assert response.getStatusCode().equals(HttpStatus.OK);
 
-    Page<UserFile> page = response.getBody();
-    List<UserFile> files = page.getContent();
+    Map<String, Object> responseBody = response.getBody();
+    List<UserFile> files = (List<UserFile>) responseBody.get("content");
     assert files.size() > 0;
 
     return files;
   }
 
-  @Test
+  @Test(priority = 3)
   public void find_file() {
 
     List<UserFile> files = getFiles(new PageRequest(0, 1));
-    UserFile firstFile = files.get(0);
+    UserFile firstFile = objectMapper.convertValue(files.get(0), UserFile.class);
 
     ResponseEntity<Resource> response = restTemplate.getForEntity(baseUrl + "/file/" + firstFile.id, Resource.class);
     assert response.getStatusCode().equals(HttpStatus.OK);
+
+    Resource resource = response.getBody();
+    assert resource.getFilename().equals(firstFile.fileName);
   }
 }

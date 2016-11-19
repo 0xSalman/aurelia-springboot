@@ -19,7 +19,7 @@ public class UserFile extends DateTime {
 
   @Id
   public String id;
-  public String name;
+  public String fileName;
   @Setter
   public String title;
   @Setter
