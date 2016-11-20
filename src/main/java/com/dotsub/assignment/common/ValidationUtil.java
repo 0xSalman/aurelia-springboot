@@ -37,7 +37,7 @@ public class ValidationUtil {
     if (StringUtil.isBlank(value)) {
       String errorMessage = StringUtil.convertCamelCase(property) + " can not be empty";
       throw new BadRequestException(errorMessage, errorKey)
-              .addErrorField(property)
+              .addErrorField(property, errorMessage)
               .addContext(property, value);
     }
   }

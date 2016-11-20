@@ -2,6 +2,8 @@ package com.dotsub.assignment;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
@@ -21,8 +23,12 @@ public class UserFile extends DateTime {
   public String id;
   public String fileName;
   @Setter
+  @NotNull
+  @Size(min = 1, message = "cannot be empty")
   public String title;
   @Setter
+  @NotNull
+  @Size(min = 10, message = "must have at least 10 characters")
   public String description;
   public OffsetDateTime creationTS;
 

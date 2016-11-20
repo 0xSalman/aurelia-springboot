@@ -1,5 +1,6 @@
 package com.dotsub.assignment;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.core.io.Resource;
@@ -27,7 +28,7 @@ public class FileController {
   private StorageService storageService;
 
   @PostMapping("/file")
-  public ResponseEntity addFile(UserFile userFile, @RequestParam("file") MultipartFile file) {
+  public ResponseEntity addFile(@Valid UserFile userFile, @RequestParam("file") MultipartFile file) {
 
     LoggerUtil.logEnter(LogLevel.INFO, userFile, file.getName());
 

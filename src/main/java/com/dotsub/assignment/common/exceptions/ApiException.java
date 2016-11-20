@@ -1,8 +1,6 @@
 package com.dotsub.assignment.common.exceptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import lombok.ToString;
 
@@ -17,7 +15,7 @@ public class ApiException extends RuntimeException {
 
   public String message;
   public String errorKey;
-  public List<String> errorFields = new ArrayList<>();
+  public Map<String, Object> errorFields = new HashMap<>();
   public Map<String, Object> context = new HashMap<>();
 
   public ApiException(String msg, String errorKey) {
@@ -32,13 +30,13 @@ public class ApiException extends RuntimeException {
     this.errorKey = errorKey;
   }
 
-  public ApiException addErrorField(String fieldName) {
-    errorFields.add(fieldName);
+  public ApiException addErrorField(String fieldName, String message) {
+    errorFields.put(fieldName, message);
     return this;
   }
 
-  public ApiException addErrorField(List<String> errorFields) {
-    this.errorFields = new ArrayList<>(errorFields);
+  public ApiException addErrorField(Map<String, Object> contextMap) {
+    this.errorFields.putAll(errorFields);
     return this;
   }
 
@@ -48,11 +46,8 @@ public class ApiException extends RuntimeException {
   }
 
   @SuppressWarnings("unchecked")
-  public ApiException addContext(Object... context) {
-    if (context != null && context.length == 1) {
-      Map<String, Object> contextMap = (Map<String, Object>) context[0];
-      this.context.putAll(contextMap);
-    }
+  public ApiException addContext(Map<String, Object> contextMap) {
+    this.context.putAll(contextMap);
     return this;
   }
 }
