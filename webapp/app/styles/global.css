@@ -1,0 +1,20 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+/*******************
+  Framework/HTML
+*******************/
+
+html.ios {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.ios,
+html.ios body {
+  height: initial !important;
+}
+
+body {
+  background: white !important;
+}

@@ -1,0 +1,18 @@
+/**
+* mobile: 767px
+* tablet: 768-991px
+* small monitor: 992px - 1200px
+* large monitor: above 1200px
+*/
+
+@media screen and (max-width: 767px) {
+
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+
+}
