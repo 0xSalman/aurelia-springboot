@@ -12,12 +12,12 @@ buildscript {
 
 apply {
   plugin("java")
-  plugin("spring-boot")
+  plugin("org.springframework.boot")
 }
 
 jar {
   baseName = 'assignment'
-  version = '0.0.1-SNAPSHOT'
+  version = '1.0'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -42,4 +42,13 @@ dependencies {
 
 springBoot {
   mainClass = "com.dotsub.assignment.Application"
+}
+
+test {
+
+  useTestNG()
+
+  testLogging {
+    events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+  }
 }

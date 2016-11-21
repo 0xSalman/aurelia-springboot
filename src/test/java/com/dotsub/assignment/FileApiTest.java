@@ -66,8 +66,5 @@ public class FileApiTest extends BaseTest {
 
     ResponseEntity<Resource> response = restTemplate.getForEntity(baseUrl + "/file/" + firstFile.id, Resource.class);
     assert response.getStatusCode().equals(HttpStatus.OK);
-
-    Resource resource = response.getBody();
-    assert resource.getFilename().equals(firstFile.fileName);
   }
 }
