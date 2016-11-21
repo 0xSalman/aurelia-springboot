@@ -8,7 +8,7 @@ import project from '../aurelia.json';
 // FIXME https://github.com/aurelia/cli/issues/248
 
 export default gulp.series(
-  // copySplashStyle,
+  copySplashStyle,
   readProjectConfiguration,
   gulp.parallel(
     transpile,
