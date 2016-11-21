@@ -107,7 +107,6 @@
           "scripts/require.js"
         ],
         "dependencies": [
-          "aurelia-api",
           "aurelia-binding",
           "aurelia-bootstrapper",
           "aurelia-dependency-injection",
@@ -162,6 +161,18 @@
             "exports": "$",
             "resources": [
               "semantic.css"
+            ]
+          },
+          {
+            "name": "semantic-ui-calendar",
+            "path": "../node_modules/semantic-ui-calendar/dist",
+            "main": "calendar",
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$",
+            "resources": [
+              "calendar.css"
             ]
           },
           "whatwg-fetch"

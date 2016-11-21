@@ -1,3 +1,45 @@
 <template>
-  <h1>Upload File</h1>
+
+  <require from="semantic-ui-calendar/calendar.css"></require>
+
+  <form class="ui form" ref="uploadForm" submit.delegate="upload()">
+
+    <div class="required field">
+      <label>Title</label>
+      <input type="text" name="title" value.bind="title"/>
+    </div>
+
+    <div class="required field">
+      <label>Description</label>
+      <textarea rows="5" name="description" value.bind="description"></textarea>
+    </div>
+
+    <div class="required field">
+      <label>Creation Date</label>
+      <div class="ui calendar" ref="calendar">
+        <div class="ui input left icon">
+          <i class="calendar icon"></i>
+          <input type="text" placeholder="Date/Time" name="creationTS"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="required field">
+      <label>Select File</label>
+      <input type="file" name="file" files.bind="file"/>
+    </div>
+
+    <div class="ui error message"></div>
+    <div class="ui negative message" if.bind="serverError">
+      There was some error with our server. Please try again later
+    </div>
+    <div class="ui positive message" if.bind="showSuccess">
+      File upload was a success!
+    </div>
+
+    <button type="submit" class="ui red lighten-1 button">
+      <i class="file icon"></i>
+      Upload
+    </button>
+  </form>
 </template>

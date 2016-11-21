@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "aurelia-animator-css": "^1.0.0",
-    "aurelia-api": "^3.0.0-rc9",
     "aurelia-bootstrapper": "^1.0.0",
+    "aurelia-fetch-client": "^1.0.1",
     "bluebird": "^3.4.1",
     "jquery": "^3.1.1",
     "semantic-ui": "github:msalman86/Semantic-UI#materialize",
+    "semantic-ui-calendar": "github:mdehoog/Semantic-UI-Calendar",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {

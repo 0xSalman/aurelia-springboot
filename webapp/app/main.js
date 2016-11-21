@@ -1,4 +1,7 @@
+import {LogManager} from 'aurelia-framework';
+import {ConsoleAppender} from 'aurelia-logging-console';
 import environment from './environment';
+import 'whatwg-fetch';
 
 //Configure Bluebird Promises.
 //Note: You may want to use environment-specific configuration.
@@ -14,9 +17,9 @@ export function configure(aurelia) {
   // .feature('resources')
   ;
   
-  if (environment.debug) {
-    aurelia.use.developmentLogging();
-  }
+  const logLevel = environment.debug ? LogManager.logLevel.debug : LogManager.logLevel.info;
+  LogManager.addAppender(new ConsoleAppender());
+  LogManager.setLevel(logLevel);
   
   if (environment.testing) {
     aurelia.use.plugin('aurelia-testing');
