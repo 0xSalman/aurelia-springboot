@@ -18,3 +18,48 @@ html.ios body {
 body {
   background: white !important;
 }
+
+a {
+  cursor: pointer;
+  color: #ef5350;
+}
+
+a:hover {
+  color: #ef5350 !important;
+}
+
+a.disabled {
+  pointer-events: none;
+}
+
+/*******************
+      Navbar
+*******************/
+.nav.menu a {
+  color: white !important;
+}
+
+.nav.ui.menu {
+  font-size: 1.5em
+}
+
+.nav.ui.menu .item {
+  color: #fff;
+}
+
+/*******************
+    Page Content
+*******************/
+.main {
+  margin-top: 1em;
+}
+
+.tabular.menu .item {
+  font-size: 1.1em;
+}
+
+.tabular.menu .active.item {
+  font-size: 1.3em;
+}
+
+

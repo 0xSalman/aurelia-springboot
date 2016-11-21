@@ -1,3 +1,24 @@
 <template>
-  <h1>${message}</h1>
+
+  <require from="semantic-ui/semantic.css"></require>
+  <require from="styles/global.css"></require>
+  <require from="styles/responsive.css"></require>
+
+  <!-- Main Menu -->
+  <div class="ui raised top fixed inverted pointing red lighten-1 nav menu">
+    <div class="ui container">
+      <div class="nav menu">
+        <a repeat.for="row of router.navigation"
+           href.bind="row.href"
+           class="${row.isActive ? 'active' : ''} item">
+          ${row.title}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="main pusher">
+    <!-- Content View -->
+    <router-view></router-view>
+  </div>
+
 </template>

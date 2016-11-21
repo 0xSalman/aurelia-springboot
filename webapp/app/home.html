@@ -1,0 +1,14 @@
+<template>
+  <div class="ui container main">
+    <div class="ui top attached tabular menu">
+      <a class="active item" data-tab="upload-file">Upload File</a>
+      <a class="item" data-tab="view-files">View Files</a>
+    </div>
+    <div class="ui bottom attached active tab segment" data-tab="upload-file">
+      <compose view-model="file/upload-file"></compose>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="view-files">
+      <compose view-model="file/view-file"></compose>
+    </div>
+  </div>
+</template>
