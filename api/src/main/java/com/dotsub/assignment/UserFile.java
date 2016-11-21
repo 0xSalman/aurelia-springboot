@@ -24,11 +24,11 @@ public class UserFile extends DateTime {
   public String fileName;
   @Setter
   @NotNull
-  @Size(min = 1, message = "cannot be empty")
+  @Size(min = 1, message = "must be at least 1 characters")
   public String title;
   @Setter
   @NotNull
-  @Size(min = 10, message = "must have at least 10 characters")
+  @Size(min = 10, message = "must be at least 10 characters")
   public String description;
   public OffsetDateTime creationTS;
 
