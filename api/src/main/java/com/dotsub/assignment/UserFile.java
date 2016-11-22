@@ -31,6 +31,9 @@ public class UserFile extends DateTime {
   @Size(min = 10, message = "must be at least 10 characters")
   public String description;
   public OffsetDateTime creationTS;
+  @Setter
+  @NotNull
+  public String type;
 
   // convert to utc
   public void setCreationTS(String creationTS) {

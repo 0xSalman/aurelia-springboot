@@ -6,7 +6,6 @@ import org.springframework.boot.logging.LogLevel;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,18 +50,13 @@ public class FileController {
   }
 
   @GetMapping("/file/{id}")
-  public ResponseEntity<Resource> serveFile(@PathVariable String id) {
+  public Resource serveFile(@PathVariable String id) {
 
     LoggerUtil.logEnter(LogLevel.INFO, id);
 
     Resource file = storageService.findOne(id);
 
-    ResponseEntity<Resource> response =
-      ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                    .body(file);
-
     LoggerUtil.logExit(LogLevel.INFO);
-    return response;
+    return file;
   }
 }
