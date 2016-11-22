@@ -1,6 +1,6 @@
 # Dotsub Assignment
 A simple app that lets user upload files with some metadata (title, description and creation date), view files metadata
-and download a single file.
+and download files.
 
 # Technology Stack
 
