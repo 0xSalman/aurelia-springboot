@@ -1,16 +1,16 @@
 import {inject, LogManager} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import 'semantic-ui-calendar';
 import {HttpService} from '../common/HttpService';
-import {ViewFile} from './view-file';
 
-@inject(HttpService, ViewFile)
+@inject(HttpService, EventAggregator)
 export class UploadFile {
   
-  constructor(httpService: HttpService, viewFile: ViewFile) {
+  constructor(httpService: HttpService, evtAgg: EventAggregator) {
     
     this.logger = LogManager.getLogger('upload-file');
     this.httpService = httpService;
-    this.viewFile = viewFile;
+    this.evtAgg = evtAgg;
     this.title = '';
     this.description = '';
     this.creationTS = '';
@@ -20,10 +20,12 @@ export class UploadFile {
   }
   
   attached() {
+  
+    this.logger.debug('UploadFile attached');
     
     $(this.calendar).calendar({
       onChange: (date, text) => {
-        this.creationTS = date;
+        this.creationTS = date.toJSON();
       }
     });
     
@@ -101,7 +103,7 @@ export class UploadFile {
       userFile.append('file', this.file[0]);
       userFile.append('title', this.title);
       userFile.append('description', this.description);
-      userFile.append('creationTS', this.creationTS.toISOString());
+      userFile.append('creationTS', this.creationTS);
       userFile.append('type', this.file[0].type);
       
       this.httpService.request('/file', {
@@ -111,7 +113,7 @@ export class UploadFile {
         this.serverError = false;
         $(this.uploadForm).form('reset');
         this.showSuccess = true;
-        this.viewFile.refreshFilesList();
+        this.refreshFiles();
         setTimeout(() => {
           this.showSuccess = false;
         }, 1000)
@@ -121,5 +123,10 @@ export class UploadFile {
         this.showSuccess = false;
       });
     }
+  }
+  
+  refreshFiles() {
+    this.logger.debug('sending refresh data event');
+    this.evtAgg.publish('refreshData', true);
   }
 }

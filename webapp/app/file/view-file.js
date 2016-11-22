@@ -1,26 +1,18 @@
 import {inject, LogManager} from 'aurelia-framework';
 import {HttpService} from '../common/HttpService';
-import {Paginator} from '../common/pagination/paginator';
 import download from 'downloadjs';
 
-@inject(HttpService, Paginator)
+@inject(HttpService)
 export class ViewFile {
   
-  constructor(httpService: HttpService, paginator: Paginator) {
-    
-    this.logger = LogManager.getLogger('upload-file');
+  constructor(httpService: HttpService) {
+    this.logger = LogManager.getLogger('view-file');
     this.httpService = httpService;
-    
-    paginator.uri = this.filesUri;
-    this.paginator = paginator;
+    this.filesUri = '/files';
   }
   
-  get filesUri() {
-    return '/files';
-  }
-  
-  refreshFilesList() {
-    this.paginator.loadPage();
+  attached() {
+    this.logger.debug('ViewFile attached');
   }
   
   download(file) {

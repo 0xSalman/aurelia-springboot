@@ -1,8 +1,10 @@
-import {inject, customElement, bindable, LogManager} from 'aurelia-framework';
+import {inject, customElement, bindable, bindingMode, LogManager} from 'aurelia-framework';
 
 @customElement('page-controller')
 @inject(Element)
 export class PageController {
+  
+  @bindable({defaultBindingMode: bindingMode.twoWay})
   
   @bindable page;
   @bindable pages;
