@@ -3,5 +3,6 @@ export function configure(config) {
     './pagination/paginator',
     './pagination/page-controller',
     // './pagination/sorter',
+    './converters/date'
   );
 }
