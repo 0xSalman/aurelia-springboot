@@ -14,7 +14,7 @@ Promise.config({
 export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
-  // .feature('resources')
+    .feature('common')
   ;
   
   const logLevel = environment.debug ? LogManager.logLevel.debug : LogManager.logLevel.info;

@@ -149,6 +149,11 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
+          {
+            "name": "downloadjs",
+            "path": "../node_modules/downloadjs",
+            "main": "download"
+          },
           "extend",
           "jquery",
           {

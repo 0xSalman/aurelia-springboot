@@ -13,6 +13,7 @@
     "aurelia-bootstrapper": "^1.0.0",
     "aurelia-fetch-client": "^1.0.1",
     "bluebird": "^3.4.1",
+    "downloadjs": "github:rndme/download",
     "jquery": "^3.1.1",
     "semantic-ui": "github:msalman86/Semantic-UI#materialize",
     "semantic-ui-calendar": "github:mdehoog/Semantic-UI-Calendar",

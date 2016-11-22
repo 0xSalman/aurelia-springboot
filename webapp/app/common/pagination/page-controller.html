@@ -1,0 +1,19 @@
+<template>
+
+  <div class="ui right floated pagination menu">
+    <a class="${isFirstPage?'disabled':''} icon item"
+       click.delegate="prevPage()" title="Page ${prevPageNo}">
+      <i class="left chevron icon"></i>
+    </a>
+    <a class="${page.active?'active':''} ${page.disabled?'disabled':''} item" repeat.for="page of displayablePages"
+       click.delegate="goToPage(page.page)" title="Page ${page.page + 1}">
+      <span if.bind="page.disabled">...</span>
+      <span if.bind="!page.disabled">${page.page + 1}</span>
+    </a>
+    <a class="${isLastPage?'disabled':''} icon item"
+       click.delegate="nextPage()" title="Page ${nextPageNo}">
+      <i class="right chevron icon"></i>
+    </a>
+    <!--<div class="ui tiny active inline loader" if.bind="loading"></div>-->
+  </div>
+</template>

@@ -1,14 +1,16 @@
 import {inject, LogManager} from 'aurelia-framework';
 import 'semantic-ui-calendar';
 import {HttpService} from '../common/HttpService';
+import {ViewFile} from './view-file';
 
-@inject(HttpService)
+@inject(HttpService, ViewFile)
 export class UploadFile {
   
-  constructor(httpService: HttpService) {
+  constructor(httpService: HttpService, viewFile: ViewFile) {
     
     this.logger = LogManager.getLogger('upload-file');
     this.httpService = httpService;
+    this.viewFile = viewFile;
     this.title = '';
     this.description = '';
     this.creationTS = '';
@@ -59,7 +61,7 @@ export class UploadFile {
             },
             {
               type: 'minLength[10]',
-              prompt: 'Description must be at least 1 characters'
+              prompt: 'Description must be at least 10 characters'
             }
           ]
         },
@@ -100,6 +102,7 @@ export class UploadFile {
       userFile.append('title', this.title);
       userFile.append('description', this.description);
       userFile.append('creationTS', this.creationTS.toISOString());
+      userFile.append('type', this.file[0].type);
       
       this.httpService.request('/file', {
         method: 'post',
@@ -108,11 +111,12 @@ export class UploadFile {
         this.serverError = false;
         $(this.uploadForm).form('reset');
         this.showSuccess = true;
+        this.viewFile.refreshFilesList();
         setTimeout(() => {
           this.showSuccess = false;
         }, 1000)
       }).catch(error => {
-        this.logger.error(error);
+        this.logger.error('failed to upload file', error);
         this.serverError = true;
         this.showSuccess = false;
       });

@@ -1,3 +1,30 @@
 <template>
-  <h1>Views Files</h1>
+  <paginator view-model.ref="paginator" uri.bind="filesUri"></paginator>
+  <div class="ui container md-bottom margin">
+    <table class="ui unstackable raised celled table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Creation Date</th>
+          <th>Download Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="file of paginator.data">
+          <td>${file.title}</td>
+          <td>${file.description}</td>
+          <td>${file.creationTS}</td>
+          <td><a click.delegate="download(file)">Link</a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5">
+            <page-controller page.two-way="paginator.page" pages.bind="paginator.pages"></page-controller>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </template>
