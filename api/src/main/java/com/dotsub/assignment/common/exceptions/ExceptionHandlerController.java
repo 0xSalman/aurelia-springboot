@@ -2,13 +2,13 @@ package com.dotsub.assignment.common.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,29 +27,36 @@ import com.dotsub.assignment.common.LoggerUtil;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ExceptionHandlerController {
 
-  @ExceptionHandler({HttpMessageNotReadableException.class, BindException.class,
-                      MissingServletRequestParameterException.class,
-                      BadRequestException.class})
+  @ExceptionHandler(
+    { BadRequestException.class,
+      BindException.class, IllegalArgumentException.class,
+      HttpMessageNotReadableException.class,
+      MissingServletRequestParameterException.class,
+    })
   public ResponseEntity<Map> handleBadRequest(final Exception ex) {
 
-    ApiException badRequestEx;
+    ApiException badRequestEx = null;
 
     if (ex instanceof BadRequestException) {
       badRequestEx = (BadRequestException) ex;
     } else {
       if (ex instanceof BindException) {
-        badRequestEx = new BadRequestException("Required data is invalid", ErrorKey.INVALID_INPUT, ex);
-        BindException bindException = (BindException) ex;
-        for (FieldError fieldError : bindException.getFieldErrors()) {
-          badRequestEx.addErrorField(fieldError.getField(), fieldError.getDefaultMessage())
-                      .addContext(fieldError.getField(), fieldError.getRejectedValue());
+        badRequestEx = new BadRequestException((BindException) ex);
+      } else if (ex instanceof IllegalArgumentException || ex instanceof HttpMessageNotReadableException) {
+        Throwable cause = ex.getCause();
+        if (cause instanceof JsonMappingException) {
+          badRequestEx = new BadRequestException((JsonMappingException) cause);
         }
-      } else {
-        badRequestEx = new BadRequestException("Bad request", ErrorKey.BAD_REQUEST, ex);
+      } else if (ex instanceof MissingServletRequestParameterException) {
+        badRequestEx = new BadRequestException((MissingServletRequestParameterException) ex);
       }
     }
 
-    return errorResponse(badRequestEx, HttpStatus.NOT_FOUND);
+    if (badRequestEx == null) {
+      badRequestEx = new BadRequestException("Bad request", ErrorKey.BAD_REQUEST, ex);
+    }
+
+    return errorResponse(badRequestEx, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(UnauthorizedException.class)
@@ -74,9 +81,9 @@ public class ExceptionHandlerController {
 
   @ExceptionHandler(value = {ApiException.class, Exception.class})
   public ResponseEntity<Map> handleOthers(final Exception ex) {
-    ApiException exception;
-    exception = (ex instanceof ApiException) ? (ApiException) ex :
-                  new ApiException("Internal server error", ErrorKey.SERVER_ERROR, ex);
+    ApiException exception =
+      (ex instanceof ApiException) ? (ApiException) ex :
+        new ApiException("Internal server error", ErrorKey.SERVER_ERROR, ex);
     return errorResponse(exception, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -84,7 +91,7 @@ public class ExceptionHandlerController {
     LoggerUtil.logError(apiException);
     Map<String, Object> response = new HashMap<>();
     response.put("message", apiException.message);
-    response.put("code", errorCode.value());
+    response.put("status", errorCode.value());
     response.put("errorKey", apiException.errorKey);
     response.put("errorFields", apiException.errorFields);
     response.put("context", apiException.context);
